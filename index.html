@@ -402,6 +402,7 @@ function itemStatus(it){
 }
 
 function renderPicking(){
+  const scrollY = window.scrollY;
   const totalUnits = state.items.reduce((a,it)=>a+it.cantidad,0);
   const doneUnits = state.items.reduce((a,it)=>a+Math.min(it.escaneado,it.cantidad),0);
   const totalLines = state.items.length;
@@ -524,7 +525,7 @@ function renderPicking(){
 
   const scanInput = document.getElementById('scanInput');
   scanInput.value = '';
-  scanInput.focus();
+  scanInput.focus({preventScroll:true});
   scanInput.onkeydown = (e)=>{
     if(e.key === 'Enter'){
       const code = scanInput.value.trim();
@@ -536,11 +537,12 @@ function renderPicking(){
     if(e.target && e.target.id === 'searchBox') return;
     refocus();
   };
+  window.scrollTo(0, scrollY);
 }
 
 function refocus(){
   const el = document.getElementById('scanInput');
-  if(el) el.focus();
+  if(el) el.focus({preventScroll:true});
 }
 
 function handleScan(code){
