@@ -507,7 +507,16 @@ function renderPicking(){
 
   document.getElementById('btnBack').onclick = ()=>{ state.screen='upload'; state.lastScan=null; render(); };
   document.getElementById('btnFinish').onclick = showSummary;
-  document.getElementById('searchBox').oninput = (e)=>{ state.search = e.target.value; renderPicking(); refocus(); };
+  document.getElementById('searchBox').oninput = (e)=>{
+    const cursorPos = e.target.selectionStart;
+    state.search = e.target.value;
+    renderPicking();
+    const sb = document.getElementById('searchBox');
+    if(sb){
+      sb.focus({preventScroll:true});
+      sb.setSelectionRange(cursorPos, cursorPos);
+    }
+  };
   document.querySelectorAll('.filters button').forEach(b=>{
     b.onclick = ()=>{ state.filter = b.dataset.f; renderPicking(); refocus(); };
   });
